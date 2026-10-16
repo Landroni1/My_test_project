@@ -1,6 +1,8 @@
 from datetime import datetime
+
 import pytest
-from parking_app.models import Client, Parking, ClientParking
+
+from parking_app.models import Client, ClientParking, Parking
 
 
 @pytest.mark.parametrize(

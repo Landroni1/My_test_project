@@ -1,6 +1,7 @@
 import factory
 from factory import fuzzy
-from parking_app.models import db, Client, Parking
+
+from parking_app.models import Client, Parking, db
 
 
 class ClientFactory(factory.alchemy.SQLAlchemyModelFactory):

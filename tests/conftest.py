@@ -1,7 +1,10 @@
 from datetime import datetime, timedelta
+
 import pytest
+
 from parking_app import create_app
-from parking_app.models import db as _db, Client, Parking, ClientParking
+from parking_app.models import Client, ClientParking, Parking
+from parking_app.models import db as _db
 
 
 class TestConfig:
