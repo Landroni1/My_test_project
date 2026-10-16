@@ -29,7 +29,8 @@ def create_client():
     surname = data.get("surname")
 
     if not name or not surname:
-        return jsonify({"error": 'Fields "name" and "surname" are required'}), 400
+        return jsonify(
+            {"error": 'Fields "name" and "surname" are required'}), 400
 
     new_client = Client(
         name=name,
@@ -51,7 +52,8 @@ def create_parking():
 
     if not address or count_places is None:
         return (
-            jsonify({"error": 'Fields "address" and "count_places" are required'}),
+            jsonify(
+                {"error": 'Fields "address" and "count_places" are required'}),
             400,
         )
 
@@ -78,7 +80,8 @@ def enter_parking():
 
     if not client_id or not parking_id:
         return (
-            jsonify({"error": 'Fields "client_id" and "parking_id" are required'}),
+            jsonify(
+                {"error": 'Fields "client_id" and "parking_id" are required'}),
             400,
         )
 
@@ -130,7 +133,8 @@ def exit_parking():
 
     if not client_id or not parking_id:
         return (
-            jsonify({"error": 'Fields "client_id" and "parking_id" are required'}),
+            jsonify(
+                {"error": 'Fields "client_id" and "parking_id" are required'}),
             400,
         )
 
@@ -139,7 +143,8 @@ def exit_parking():
         return jsonify({"error": "Client not found"}), 404
 
     if not client.credit_card:
-        return jsonify({"error": "Client has no credit card attached for payment"}), 400
+        return jsonify(
+            {"error": "Client has no credit card attached for payment"}), 400
 
     parking = db.session.get(Parking, parking_id)
     if not parking:
@@ -150,7 +155,8 @@ def exit_parking():
     ).first()
 
     if not record:
-        return jsonify({"error": "Client is not currently parked at this parking"}), 404
+        return jsonify(
+            {"error": "Client is not currently parked at this parking"}), 404
 
     record.time_out = datetime.now()
 

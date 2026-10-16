@@ -1,5 +1,4 @@
 import factory
-import pytest
 
 from parking_app.models import Client, Parking
 from tests.factories import ClientFactory, ParkingFactory

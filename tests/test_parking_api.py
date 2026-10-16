@@ -63,10 +63,12 @@ def test_create_parking(client, db):
 @pytest.mark.parking
 def test_enter_parking_success(client, db):
     parking = Parking(
-        address="ул. Мира, 1", opened=True, count_places=5, count_available_places=5
+        address="ул. Мира, 1", opened=True, count_places=5,
+        count_available_places=5
     )
     test_client = Client(
-        name="Алексей", surname="Смирнов", credit_card="1234", car_number="Х001ХХ"
+        name="Алексей", surname="Смирнов", credit_card="1234",
+        car_number="Х001ХХ"
     )
     db.session.add_all([parking, test_client])
     db.session.commit()
@@ -74,7 +76,8 @@ def test_enter_parking_success(client, db):
     initial_places = parking.count_available_places
 
     response = client.post(
-        "/client_parkings", json={"client_id": test_client.id, "parking_id": parking.id}
+        "/client_parkings",
+        json={"client_id": test_client.id, "parking_id": parking.id}
     )
 
     assert response.status_code == 201
@@ -116,7 +119,8 @@ def test_exit_parking_success(client, db):
     initial_places = parking.count_available_places
 
     response = client.delete(
-        "/client_parkings", json={"client_id": test_client.id, "parking_id": parking.id}
+        "/client_parkings",
+        json={"client_id": test_client.id, "parking_id": parking.id}
     )
 
     assert response.status_code == 200
@@ -142,7 +146,8 @@ def test_enter_closed_parking_fails(client, db):
     db.session.commit()
 
     response = client.post(
-        "/client_parkings", json={"client_id": test_client.id, "parking_id": parking.id}
+        "/client_parkings",
+        json={"client_id": test_client.id, "parking_id": parking.id}
     )
     assert response.status_code == 400
     assert "closed" in response.get_json()["error"]
@@ -152,14 +157,16 @@ def test_enter_closed_parking_fails(client, db):
 def test_enter_parking_no_places_fails(client, db):
     """Нельзя заехать, если мест нет."""
     parking = Parking(
-        address="ул. Полная, 2", opened=True, count_places=5, count_available_places=0
+        address="ул. Полная, 2", opened=True, count_places=5,
+        count_available_places=0
     )
     test_client = Client(name="Иван", surname="Иванов", credit_card="1111")
     db.session.add_all([parking, test_client])
     db.session.commit()
 
     response = client.post(
-        "/client_parkings", json={"client_id": test_client.id, "parking_id": parking.id}
+        "/client_parkings",
+        json={"client_id": test_client.id, "parking_id": parking.id}
     )
     assert response.status_code == 400
     assert "No available parking places" in response.get_json()["error"]
@@ -169,7 +176,8 @@ def test_enter_parking_no_places_fails(client, db):
 def test_exit_without_credit_card_fails(client, db):
     """Нельзя оплатить и выехать без привязанной кредитной карты."""
     parking = Parking(
-        address="ул. Платная, 3", opened=True, count_places=5, count_available_places=4
+        address="ул. Платная, 3", opened=True, count_places=5,
+        count_available_places=4
     )
     # Клиент без карты
     test_client = Client(name="Без", surname="Карты", credit_card=None)
@@ -183,7 +191,8 @@ def test_exit_without_credit_card_fails(client, db):
     db.session.commit()
 
     response = client.delete(
-        "/client_parkings", json={"client_id": test_client.id, "parking_id": parking.id}
+        "/client_parkings",
+        json={"client_id": test_client.id, "parking_id": parking.id}
     )
     assert response.status_code == 400
     assert "credit card" in response.get_json()["error"].lower()

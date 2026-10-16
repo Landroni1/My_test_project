@@ -17,7 +17,8 @@ class Client(Base):
     credit_card = db.Column(db.String(50), nullable=True)
     car_number = db.Column(db.String(10), nullable=True)
 
-    parkings = db.relationship("ClientParking", back_populates="client", lazy=True)
+    parkings = db.relationship("ClientParking", back_populates="client",
+                               lazy=True)
 
     def to_dict(self):
         return {
@@ -38,7 +39,8 @@ class Parking(Base):
     count_places = db.Column(db.Integer, nullable=False)
     count_available_places = db.Column(db.Integer, nullable=False)
 
-    clients = db.relationship("ClientParking", back_populates="parking", lazy=True)
+    clients = db.relationship("ClientParking", back_populates="parking",
+                              lazy=True)
 
     def to_dict(self):
         return {
@@ -54,8 +56,10 @@ class ClientParking(Base):
     __tablename__ = "client_parking"
 
     id = db.Column(db.Integer, primary_key=True)
-    client_id = db.Column(db.Integer, db.ForeignKey("client.id"), nullable=True)
-    parking_id = db.Column(db.Integer, db.ForeignKey("parking.id"), nullable=True)
+    client_id = db.Column(db.Integer, db.ForeignKey("client.id"),
+                          nullable=True)
+    parking_id = db.Column(db.Integer, db.ForeignKey("parking.id"),
+                           nullable=True)
     time_in = db.Column(db.DateTime, nullable=True)
     time_out = db.Column(db.DateTime, nullable=True)
 
@@ -63,7 +67,8 @@ class ClientParking(Base):
     parking = db.relationship("Parking", back_populates="clients")
 
     __table_args__ = (
-        UniqueConstraint("client_id", "parking_id", name="unique_client_parking"),
+        UniqueConstraint("client_id", "parking_id",
+                         name="unique_client_parking"),
     )
 
     def to_dict(self):
