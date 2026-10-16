@@ -1,10 +1,12 @@
+from typing import Any
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import UniqueConstraint
 
 db = SQLAlchemy()
 
+Base: Any = db.Model
 
-class Client(db.Model):
+class Client(Base):
     __tablename__ = 'client'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -25,7 +27,7 @@ class Client(db.Model):
         }
 
 
-class Parking(db.Model):
+class Parking(Base):
     __tablename__ = 'parking'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -46,7 +48,7 @@ class Parking(db.Model):
         }
 
 
-class ClientParking(db.Model):
+class ClientParking(Base):
     __tablename__ = 'client_parking'
 
     id = db.Column(db.Integer, primary_key=True)
