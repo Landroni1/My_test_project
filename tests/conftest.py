@@ -4,6 +4,7 @@ from parking_app import create_app
 from parking_app.models import db as _db, Client, Parking, ClientParking
 
 
+
 class TestConfig:
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
